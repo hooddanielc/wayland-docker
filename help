@@ -1,0 +1,240 @@
+Sending build context to Docker daemon  12.8 kB
+Step 1 : FROM debian
+ ---> 031143c1c662
+Step 2 : ENV REPO_WAYLAND_BUILD_TOOLS https://github.com/hooddanielc/wayland-build-tools.git
+ ---> Using cache
+ ---> 3eaa25ae3184
+Step 3 : RUN apt-get update && apt-get install -y git-core sudo
+ ---> Using cache
+ ---> 1e3a52358384
+Step 4 : RUN cd /tmp
+ ---> Using cache
+ ---> be81328710a8
+Step 5 : RUN git clone $REPO_WAYLAND_BUILD_TOOLS /tmp/tools
+ ---> Using cache
+ ---> d70ec61cdae9
+Step 6 : WORKDIR /tmp/tool
+ ---> Using cache
+ ---> ee88e23f6360
+Step 7 : ENV USER dhoodlum
+ ---> Using cache
+ ---> 4d495dde6633
+Step 8 : RUN useradd -m $USER &&   echo "$USER:$USER" | chpasswd &&   usermod --shell /bin/bash $USER &&   usermod -aG sudo $USER &&   echo "$USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USER &&   chmod 0440 /etc/sudoers.d/$USER &&   usermod  --uid 420 $USER &&   groupmod --gid 1337 $USER
+ ---> Using cache
+ ---> d38dccfd3a56
+Step 9 : USER dhoodlum
+ ---> Using cache
+ ---> 9e5141353604
+Step 10 : ENV HOME /home/dhoodlum
+ ---> Using cache
+ ---> 9e03c261b9a3
+Step 11 : ENV INCLUDE_XWAYLAND 1
+ ---> Using cache
+ ---> a271384be558
+Step 12 : ENV WLROOT $HOME/Wayland
+ ---> Using cache
+ ---> f7207e5a50f9
+Step 13 : ENV WLD $WLROOT/install
+ ---> Using cache
+ ---> 6d688c6ce01a
+Step 14 : ENV WL_BITS 64
+ ---> Using cache
+ ---> 622ace3f3048
+Step 15 : ENV DISTCHECK_CONFIGURE_FLAGS "--with-xserver-path=${WLROOT}/install/bin/Xwayland"
+ ---> Using cache
+ ---> 1ae30e51dbfb
+Step 16 : ENV LD_LIBRARY_PATH $WLD/lib
+ ---> Using cache
+ ---> 246bdfe8debb
+Step 17 : ENV PKG_CONFIG_PATH $WLD/lib/pkgconfig/:$WLD/share/pkgconfig/
+ ---> Using cache
+ ---> eeca33d60363
+Step 18 : ENV PATH $WLD/bin:$PATH
+ ---> Using cache
+ ---> 06ea4fcd75de
+Step 19 : ENV ACLOCAL_PATH "$WLD/share/aclocal"
+ ---> Using cache
+ ---> 1abbf3043aaf
+Step 20 : ENV ACLOCAL "aclocal -I $ACLOCAL_PATH"
+ ---> Using cache
+ ---> 02ea75a04a62
+Step 21 : RUN mkdir $HOME/Wayland
+ ---> Using cache
+ ---> 41a4e6b81d3a
+Step 22 : RUN mkdir -p ~/.config/wayland-build-tools
+ ---> Using cache
+ ---> 70443a047316
+Step 23 : RUN cp /tmp/tools/wl_defines.sh ~/.config/wayland-build-tools/
+ ---> Using cache
+ ---> 4c3eb5bdc85d
+Step 24 : RUN sudo apt-get install -y autoconf automake bison debhelper dpkg-dev flex libtool
+ ---> Using cache
+ ---> 4089c936d43c
+Step 25 : RUN sudo apt-get install -y pkg-config quilt python-libxml2
+ ---> Using cache
+ ---> 5bfc68564596
+Step 26 : RUN sudo apt-get install -y xmlto   doxygen   graphviz   linux-libc-dev   libexpat1-dev   libmtdev-dev   libpam0g-dev   libunwind8-dev   libpciaccess-dev   libudev-dev   libgudev-1.0-dev   llvm-dev   python-mako   libxml2-dev   libpng-dev   libglib2.0-dev   libgcrypt20-dev   x11proto-scrnsaver-dev   libxfont-dev   libedit-dev
+ ---> Using cache
+ ---> 8aa7010cd45b
+Step 27 : RUN sudo apt-get install -y libxcb-composite0-dev   x11proto-randr-dev   x11proto-composite-dev   x11proto-xinerama-dev   x11proto-dri2-dev   x11proto-gl-dev   xutils-dev   libxcursor-dev   libx11-dev   libx11-xcb-dev   libxdamage-dev   libxext-dev   libxfixes-dev   libxxf86vm-dev
+ ---> Using cache
+ ---> 04ff93fdfd28
+Step 28 : ADD scripts/clone_or_update.sh /tmp/clone_or_update.sh
+ ---> Using cache
+ ---> ff5575e23a93
+Step 29 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/wayland/wayland
+ ---> Using cache
+ ---> bd0513aa3f72
+Step 30 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/git/mesa/drm
+ ---> Using cache
+ ---> 82c94021a77c
+Step 31 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xcb/proto
+ ---> Using cache
+ ---> 7ea27640cd8c
+Step 32 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/util/macros
+ ---> Using cache
+ ---> 981b2979dce9
+Step 33 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xcb/libxcb
+ ---> Using cache
+ ---> afa18cce2b93
+Step 34 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/presentproto
+ ---> Using cache
+ ---> d309ac1a0e98
+Step 35 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/dri3proto
+ ---> Using cache
+ ---> 3ea6355bfd72
+Step 36 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/lib/libxshmfence
+ ---> Using cache
+ ---> d33c3b9dbca4
+Step 37 : RUN /tmp/clone_or_update.sh git://github.com/xkbcommon/libxkbcommon
+ ---> Using cache
+ ---> 3f92e1c5b338
+Step 38 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/mesa/mesa
+ ---> Using cache
+ ---> a9fe6d481396
+Step 39 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/pixman
+ ---> Using cache
+ ---> 90aa7de96f36
+Step 40 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/cairo
+ ---> Using cache
+ ---> 10e1095c8cd7
+Step 41 : RUN /tmp/clone_or_update.sh git://git.sv.gnu.org/libunwind
+ ---> Using cache
+ ---> afaf45ff3a0b
+Step 42 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/libevdev
+ ---> Using cache
+ ---> 83610488f2f0
+Step 43 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/wayland/wayland-protocols
+ ---> Using cache
+ ---> a268944e3c58
+Step 44 : RUN /tmp/clone_or_update.sh git://git.code.sf.net/p/linuxwacom/libwacom
+ ---> Using cache
+ ---> 6bbc13421ffd
+Step 45 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/wayland/libinput
+ ---> Using cache
+ ---> e241ceae4ad5
+Step 46 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/wayland/weston
+ ---> Using cache
+ ---> a37dfb67d39b
+Step 47 : RUN /tmp/clone_or_update.sh git://github.com/anholt/libepoxy
+ ---> Using cache
+ ---> 3b489b27d960
+Step 48 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/glproto
+ ---> Using cache
+ ---> 566e32218700
+Step 49 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/xproto
+ ---> Using cache
+ ---> 7242a2fa6b7e
+Step 50 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/xcmiscproto
+ ---> Using cache
+ ---> 15760c2aa004
+Step 51 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/lib/libxtrans
+ ---> Using cache
+ ---> fd0095030fad
+Step 52 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/bigreqsproto
+ ---> Using cache
+ ---> 7d04a6fac42d
+Step 53 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/xextproto
+ ---> Using cache
+ ---> ebc79fb707a7
+Step 54 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/fontsproto
+ ---> Using cache
+ ---> bdf0ac8edb86
+Step 55 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/videoproto
+ ---> Using cache
+ ---> ca768f8c7afc
+Step 56 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/recordproto
+ ---> Using cache
+ ---> 453f026b9719
+Step 57 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/resourceproto
+ ---> Using cache
+ ---> 9b1e9f51b561
+Step 58 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/xf86driproto
+ ---> Using cache
+ ---> 5975c7b5f2b2
+Step 59 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/randrproto
+ ---> Using cache
+ ---> c0cb0ff76fc0
+Step 60 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/lib/libxkbfile
+ ---> Using cache
+ ---> 1eabbf800a5b
+Step 61 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/lib/libXfont
+ ---> Using cache
+ ---> 67814a06d0b1
+Step 62 : RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/xserver
+ ---> Using cache
+ ---> 00569578c9f1
+Step 63 : ADD scripts/gen.sh /tmp/gen.sh
+ ---> Using cache
+ ---> a01c123cd0f6
+Step 64 : ADD scripts/compile.sh /tmp/compile.sh
+ ---> Using cache
+ ---> ed099ab40e23
+Step 65 : RUN mkdir -p $WLD/share/aclocal
+ ---> Using cache
+ ---> 5cb417d70a74
+Step 66 : RUN /tmp/gen.sh wayland && /tmp/compile.sh
+ ---> Using cache
+ ---> 2efa7e5d8be5
+Step 67 : RUN env -i echo "!!!!!!!!!!!!!!! ${wayland-scanner} !!!!!!!!!!!!!!!!!!"
+ ---> Running in a87508dc4e9d
+!!!!!!!!!!!!!!! scanner !!!!!!!!!!!!!!!!!!
+ ---> 5def037342c4
+Removing intermediate container a87508dc4e9d
+Step 68 : RUN env -i echo "!!!!!!!!!!!!!!!! ${WLD} !!!!!!!!!!!!!!!"
+ ---> Running in 789ba62fc615
+!!!!!!!!!!!!!!!! /home/dhoodlum/Wayland/install !!!!!!!!!!!!!!!
+ ---> f961fdd76661
+Removing intermediate container 789ba62fc615
+Step 69 : RUN /tmp/gen.sh wayland-protocols && /tmp/compile.sh
+ ---> Running in 77f52c054f67
+
+wayland-protocols
+./autogen.sh --prefix=/home/dhoodlum/Wayland/install 
+[91mautoreconf: Entering directory `.'
+[0m[91mautoreconf: configure.ac: not using Gettext
+[0m[91mautoreconf: running: aclocal -I /home/dhoodlum/Wayland/install/share/aclocal --force 
+[0m[91mautoreconf: configure.ac: tracing
+[0m[91mautoreconf: configure.ac: not using Libtool
+autoreconf: running: /usr/bin/autoconf --force
+[0m[91mautoreconf: configure.ac: not using Autoheader
+autoreconf: running: automake --add-missing --copy --force-missing
+[0m[91mconfigure.ac:29: installing './install-sh'
+[0m[91mconfigure.ac:29: installing './missing'
+[0m[91mparallel-tests: installing './test-driver'
+[0m[91mautoreconf: Leaving directory `.'
+[0mchecking for wayland-scanner... no
+checking for pkg-config... /usr/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking for WAYLAND_SCANNER... no
+[91mconfigure: error: Package requirements (wayland-scanner) were not met:
+
+No package 'wayland-scanner' found
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables WAYLAND_SCANNER_CFLAGS
+and WAYLAND_SCANNER_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+[0m
