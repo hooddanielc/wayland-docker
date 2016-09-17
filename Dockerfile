@@ -2,6 +2,9 @@ FROM debian
 
 ENV REPO_WAYLAND_BUILD_TOOLS https://github.com/hooddanielc/wayland-build-tools.git
 
+RUN apt-get update
+RUN apt-get install -y netselect-apt
+RUN cd /etc/apt && netselect-apt
 RUN apt-get update && apt-get install -y git-core sudo
 
 RUN cd /tmp
@@ -88,7 +91,7 @@ RUN llvm_drivers=swrast,nouveau,r300,r600 && \
     vga_manu=${vga_name%% *} && \
     if [ "${vga_manu}" = "NVIDIA" ]; then \
       llvm_drivers=swrast,nouveau; \
-    fi &&
+    fi && \
     /tmp/clone_or_update.sh git://anongit.freedesktop.org/mesa/mesa
 
 RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/pixman
