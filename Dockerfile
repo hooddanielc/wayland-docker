@@ -151,7 +151,7 @@ RUN llvm_drivers=swrast,nouveau,r300,r600 && \
     --disable-llvm-shared-libs \
     --disable-dri3 \
     --with-gallium-drivers=$llvm_drivers && \
-    /tmp/compile.sh mesa
+  /tmp/compile.sh mesa
 
 RUN /tmp/g_and_c.sh pixman
 RUN /tmp/g_and_c.sh cairo --enable-xcb --enable-gl
