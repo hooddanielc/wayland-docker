@@ -86,14 +86,7 @@ RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/proto/dri3proto
 RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/xorg/lib/libxshmfence
 RUN /tmp/clone_or_update.sh git://github.com/xkbcommon/libxkbcommon
 
-RUN llvm_drivers=swrast,nouveau,r300,r600 && \
-    vga_pci=$(lspci | grep VGA | head -n1) && \
-    vga_name=${vga_pci#*controller: } && \
-    vga_manu=${vga_name%% *} && \
-    if [ "${vga_manu}" = "NVIDIA" ]; then \
-      llvm_drivers=swrast,nouveau; \
-    fi && \
-    /tmp/clone_or_update.sh git://anongit.freedesktop.org/mesa/mesa
+RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/mesa/mesa
 
 RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/pixman
 RUN /tmp/clone_or_update.sh git://anongit.freedesktop.org/cairo
@@ -141,7 +134,14 @@ RUN /tmp/g_and_c.sh libxkbcommon \
 
 ADD scripts/compile.sh /tmp/compile.sh
 
-RUN cd $WLROOT/mesa && \
+RUN llvm_drivers=swrast,nouveau,r300,r600 && \
+  vga_pci=$(lspci | grep VGA | head -n1) && \
+  vga_name=${vga_pci#*controller: } && \
+  vga_manu=${vga_name%% *} && \
+  if [ "${vga_manu}" = "NVIDIA" ]; then \
+    llvm_drivers=swrast,nouveau; \
+  fi && \
+  cd $WLROOT/mesa && \
   git clean -xfd && \
   ./autogen.sh --prefix=$WLD \
     --enable-gles2 \
@@ -150,8 +150,8 @@ RUN cd $WLROOT/mesa && \
     --enable-shared-glapi \
     --disable-llvm-shared-libs \
     --disable-dri3 \
-    --with-gallium-drivers=$llvm_drivers
-RUN /tmp/compile.sh mesa
+    --with-gallium-drivers=$llvm_drivers && \
+    /tmp/compile.sh mesa
 
 RUN /tmp/g_and_c.sh pixman
 RUN /tmp/g_and_c.sh cairo --enable-xcb --enable-gl
@@ -226,4 +226,6 @@ ADD scripts/.bashrc /home/$USER/.bashrc
 ADD scripts/wl_uninstalled.sh $WLROOT/wl_uninstalled.sh
 USER $USER
 RUN sudo chown -R $USER /home/$USER
+# RUN sudo apt install -y xinit
+# RUN sudo apt install -y xterm
 CMD cd $WLROOT && bash
