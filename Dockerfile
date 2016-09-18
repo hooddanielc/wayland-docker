@@ -53,7 +53,8 @@ RUN sudo apt-get install -y xmlto \
   x11proto-scrnsaver-dev \
   libxfont-dev \
   libedit-dev \
-  xfonts-utils
+  xfonts-utils \
+  pciutils
 
 # XWAYLAND DEPS
 RUN sudo apt-get install -y libxcb-composite0-dev \
